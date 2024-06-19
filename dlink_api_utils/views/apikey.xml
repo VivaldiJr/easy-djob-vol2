@@ -1,0 +1,76 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_dlink_api_utils_apikey_tree">
+            <field name="name">ApiKey - Tree</field>
+            <field name="model">dlink.api.util.apikey</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expire"/>
+                    <field name="revoke"/>
+                    <field name="prefix"/>
+                    <field name="hash"/>
+                    <!-- Agrega aquí los demás campos que quieres mostrar en la vista -->
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_dlink_api_utils_apikey_kanban">
+            <field name="name">ApiKey - Kanban</field>
+            <field name="model">dlink.api.util.apikey</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_content">
+                                <div class="oe_kanban_title">
+                                    <field name="name"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="create_date"/>
+                                </div>
+                                <field name="id" invisible="1"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_dlink_api_utils_apikey_form">
+            <field name="name">ApiKey - Form</field>
+            <field name="model">dlink.api.util.apikey</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="name"/>
+
+                        </group>
+                        <group>
+                            <field name="expire"/>
+                            <field name="revoke"/>
+                        </group>
+                        <!-- Agrega aquí los demás campos que quieres mostrar en la vista -->
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_dlink_api_utils_apikey_search">
+            <field name="name">ApiKey - Search</field>
+            <field name="model">dlink.api.util.apikey</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="action_apikey_kanban" model="ir.actions.act_window">
+            <field name="name">ApiKeys</field>
+            <field name="res_model">dlink.api.util.apikey</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_dlink_api_utils_apikey_kanban"/>
+        </record>
+        <menuitem id="menu_apikey" web_icon="dlink_api_utils,static/apikey.png" name="ApiKeys" action="action_apikey_kanban"/>
+
+    </data>
+</odoo>

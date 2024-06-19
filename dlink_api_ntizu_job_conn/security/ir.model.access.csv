@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dlink_api_ntizu_job_conn_dlink_api_ntizu_job_conn,dlink_api_ntizu_job_conn.dlink_api_ntizu_job_conn,model_dlink_api_ntizu_job_conn_dlink_api_ntizu_job_conn,base.group_user,1,1,1,1

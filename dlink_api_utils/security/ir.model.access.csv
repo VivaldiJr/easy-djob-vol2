@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access.dlink.api.util.app.update,access_dlink_api_util_app_update,dlink_api_utils.model_dlink_api_util_app_update,base.group_user,1,1,1,1
+access.dlink.api.util.apikey,access_dlink_api_util_apikey,dlink_api_utils.model_dlink_api_util_apikey,base.group_user,1,1,1,1
+

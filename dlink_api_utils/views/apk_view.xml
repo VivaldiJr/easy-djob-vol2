@@ -1,0 +1,47 @@
+<!-- Vista Tree -->
+<odoo>
+    <data>
+        <record id="view_app_update_tree" model="ir.ui.view">
+            <field name="name">dlink.api.util.app.update.tree</field>
+            <field name="model">dlink.api.util.app.update</field>
+            <field name="arch" type="xml">
+                <tree string="App Updates">
+                    <field name="name"/>
+                    <field name="package_name"/>
+                    <field name="version"/>
+                    <field name="file"/>
+                    <field name="datetime"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Form -->
+        <record id="view_app_update_form" model="ir.ui.view">
+            <field name="name">dlink.api.util.app.update.form</field>
+            <field name="model">dlink.api.util.app.update</field>
+            <field name="arch" type="xml">
+                <form string="App Update">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="package_name"/>
+                            <field name="version"/>
+                            <field name="file" widget="binary"/>
+                            <field name="datetime"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción -->
+        <record id="action_app_update" model="ir.actions.act_window">
+            <field name="name">App Updates</field>
+            <field name="res_model">dlink.api.util.app.update</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú -->
+        <menuitem id="menu_app_update"  web_icon="base,static/description/icon.png"  name="App Updates" action="action_app_update"/>
+    </data>
+</odoo>

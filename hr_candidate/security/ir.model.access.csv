@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access.hr.candidate,access_hr_candidate,hr_candidate.model_hr_candidate,base.group_user,1,1,1,1
+access.hr.candidate.experience,access_hr_candidate_experience,hr_candidate.model_hr_candidate_experience,base.group_user,1,1,1,1
+access.hr.company,access_hr_company,hr_candidate.model_hr_company,base.group_user,1,1,1,1
+access.hr.job_position,access_hr_job_position,hr_candidate.model_hr_job_position,base.group_user,1,1,1,1
+access.hr.candidate.school,access_hr_candidate_school,hr_candidate.model_hr_candidate_school,base.group_user,1,1,1,1
+access.hr.institution,access_hr_institution,hr_candidate.model_hr_institution,base.group_user,1,1,1,1
+access.hr.study_area,access_hr_study_area,hr_candidate.model_hr_study_area,base.group_user,1,1,1,1
+access.hr.candidate.course,access_hr_candidate_course,hr_candidate.model_hr_candidate_course,base.group_user,1,1,1,1
+access.hr.course,access_hr_course,hr_candidate.model_hr_course,base.group_user,1,1,1,1
+access.hr.candidate.language,access_hr_candidate_language,hr_candidate.model_hr_candidate_language,base.group_user,1,1,1,1
+access.hr.language,access_hr_language,hr_candidate.model_hr_language,base.group_user,1,1,1,1
+access.hr.skill,access_hr_skill,hr_candidate.model_hr_skill,base.group_user,1,1,1,1

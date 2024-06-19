@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dlink_api_hr_candidate_dlink_api_hr_candidate,dlink_api_hr_candidate.dlink_api_hr_candidate,model_dlink_api_hr_candidate_dlink_api_hr_candidate,base.group_user,1,1,1,1
+access_hr_candidate_token,access_hr_candidate_token,model_hr_candidate_token,base.group_user,1,1,1,1

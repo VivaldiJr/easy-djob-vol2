@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8069/api/urls',
+        headers: {
+            'Content-Type': 'application/json',
+            'Device-Id': 'MyDeviceId',
+            'Authorization': 'access78dd90b8b55a47f333dd7ad2bac9b50683d928855dc38827bcecdc057c13a14b4a94187b7362aa0acf46b2ce1568f15ff9365a8651cd8338a914f1ff576bcce078a45c086ee9616ac5e135d56627a2825dcd1ed1fced6a0003edbc890de59272c4cabb073e47863cd3dbd9846e7f1a6568a3d7277199fd338cc5fbcd76fd3b1346fb79820c6f08965b8e748ad394478206f9d7f00ad88943333b25676e3b9e661698194077.584755'
+        }
+    })
+    .then((resp) => {
+        console.log('RESP:', resp);
+    })
+    .catch((err) => {
+        console.log('err:', err.message);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access.ntizu.company.request,access_ntizu_company_request,ntizu_job_conn.model_ntizu_company_request,base.group_user,1,1,1,1
+access.representative.ntizu.company.request,access_representative_ntizu_company_request,ntizu_job_conn.model_representative_ntizu_company_request,base.group_user,1,1,1,1
+access.member.ntizu.company.request,access_member_ntizu_company_request,ntizu_job_conn.model_member_ntizu_company_request,base.group_user,1,1,1,1
+access.ntizu.teste.skill,access_ntizu_teste_skill,ntizu_job_conn.model_ntizu_teste_skill,base.group_user,1,1,1,1
+access.ntizu.formacao,access_ntizu_formacao,ntizu_job_conn.model_ntizu_formacao,base.group_user,1,1,1,1
+
