@@ -23,27 +23,47 @@ class JsonDLinkAccessToken(http.Controller):
         TABLE_API_AUTH_TOKEN = request.env['dlink_auth_api.access_token']
         TABLE_USER = request.env['res.users']
         TABLE_CANDIDATE = request.env['hr.candidate']
+        TABLE_COMPANY = request.env['ntizu.company.request.token']
+
         kwargs.update(request.get_http_params())
         headers = request.httprequest.headers
         db, device = (request.env.registry.db_name, headers.get(header_device))
         print(db, device)
+
         try:
-            if username == 'google-signIn':
-                user = verify_google_id_token(password)
+            # Verificar se o username pertence a um candidato
+            candidate = TABLE_CANDIDATE.sudo().search([("email", "=", username)])
+            if candidate:
+                user_type = 'candidate'
             else:
+                # Verificar se o username pertence a uma empresa
+                company = TABLE_COMPANY.sudo().search([("email", "=", username)])
+                if company:
+                    user_type = 'company'
+                else:
+                    return DlinkHelper.JsonErrorResponse([], error_message="Username not found", error_code=404)
+
+            if user_type == 'candidate':
                 user = TABLE_USER.sudo().search([("login", "=", username)])
                 user.authenticate(db, user.login, password, {})
 
-            candidate = TABLE_CANDIDATE.sudo().search([("email", "=", user.email)])
-            if candidate:
                 if not candidate.email_verified:
-                    pass
-                    # raise AccessDenied("Candidate email no verify")
+                    return DlinkHelper.JsonErrorResponse([], error_message="Candidate email not verified",
+                                                         error_code=401)
+
+            elif user_type == 'company':
+                # Verificar credenciais da empresa aqui, se necessário, e obter o user associado
+                user = TABLE_USER.sudo().search([("login", "=", username)])
+                user.authenticate(db, user.login, password, {})
 
             access_token = TABLE_API_AUTH_TOKEN.find_or_create_token(user_id=user.id, device=device, create=True)
             access_tokens_obj = TABLE_API_AUTH_TOKEN.sudo().search([("token", "=", access_token)])
 
-            return DlinkHelper.JsonValidResponse(TokenSerializer(access_tokens_obj, context={"request": request}).serializer())
+            # Adicionar user_type na resposta
+            response_data = TokenSerializer(access_tokens_obj, context={"request": request}).serializer()
+            response_data.update({"user_type": user_type})
+
+            return DlinkHelper.JsonValidResponse(response_data)
 
         except AccessError as aee:
             print("AccessError")
@@ -56,6 +76,7 @@ class JsonDLinkAccessToken(http.Controller):
         except Exception as e:
             print("Exception")
             return DlinkHelper.JsonErrorResponse([], error_message=str(e), error_code=403)
+
 
     @headers_required_json(headers={header_device: "identificador unico del móvil"})
     @fields_required_json(fields=[
@@ -73,17 +94,20 @@ class JsonDLinkAccessToken(http.Controller):
             return DlinkHelper.JsonValidResponse(TokenSerializer(token, context={"request": request}).serializer())
         return DlinkHelper.JsonErrorResponse([{"key": header_authorization, "data": "Refresh Expired"}], error_code=401)
 
+
     @token_required
     @http.route(tokenVerify_endpoint, methods=["GET"], type="json", auth="none", csrf=False, cors='*')
     def verifyToken(self, **kwargs):
         return DlinkHelper.JsonValidResponse(
             UserSerializer(data=request.authToken.user_id, context={"request": request}).serializer())
 
+
     @token_required
     @http.route(tokenRemove_endpoint, methods=["POST"], type="json", auth="none", csrf=False, cors='*')
     def logOut(self, **post):
         request.authToken.unlink()
         return DlinkHelper.JsonValidResponse({"detail": "OK"})
+
 
     @token_required
     @api_key_required()
@@ -108,17 +132,17 @@ class JsonDLinkAccessToken(http.Controller):
             return DlinkHelper.JsonErrorResponse([], error_message=str(e), error_code=403)
 
 
-def verify_google_id_token(token) -> str:
-    TABLE_USER = request.env['res.users']
-    try:
-        url = f"https://oauth2.googleapis.com/tokeninfo?id_token={token}"
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            user_email = data.get('email')
-            user = TABLE_USER.sudo().search([("login", "=", user_email)])
-            if user:
-                return user
-    except requests.exceptions.RequestException as e:
-        print(e)
-    raise AccessDenied
+    def verify_google_id_token(token) -> str:
+        TABLE_USER = request.env['res.users']
+        try:
+            url = f"https://oauth2.googleapis.com/tokeninfo?id_token={token}"
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                user_email = data.get('email')
+                user = TABLE_USER.sudo().search([("login", "=", user_email)])
+                if user:
+                    return user
+        except requests.exceptions.RequestException as e:
+            print(e)
+        raise AccessDenied
